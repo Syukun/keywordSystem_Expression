@@ -1,0 +1,108 @@
+ Expression:
+    Annotation,(*omit*)
+    ArrayAccess,
+    ArrayCreation,
+    ArrayInitializer,
+    Assignment,
+    BooleanLiteral,
+    CastExpression,
+    CharacterLiteral,
+    ClassInstanceCreation,(*omit*)
+    ConditionalExpression,
+    CreationReference,(*omit*)
+    ExpressionMethodReference,(*omit*)
+    FieldAccess,
+    InfixExpression,
+    InstanceofExpression,
+    LambdaExpression,(*omit*)
+    MethodInvocation,
+    MethodReference,(*omit*)
+    Name,
+    NullLiteral,
+    NumberLiteral,
+    ParenthesizedExpression,
+    PostfixExpression,
+    PrefixExpression,
+    StringLiteral,
+    SuperFieldAccess,
+    SuperMethodInvocation,
+    SuperMethodReference,(*omit*)
+    ThisExpression,
+    TypeLiteral,
+    TypeMethodReference,(*omit*)
+    VariableDeclarationExpression
+            
+ ArrayAccess:
+    Expression [ Expression ]
+    
+ ArrayCreation:
+    new PrimitiveType [ Expression ] { [ Expression ] } { [ ] }
+    new TypeName [ < Type { , Type } > ]
+        [ Expression ] { [ Expression ] } { [ ] }
+    new PrimitiveType [ ] { [ ] } ArrayInitializer
+    new TypeName [ < Type { , Type } > ]
+        [ ] { [ ] } ArrayInitializer
+        
+ Primitive Type: int float short long boolean byte char string double void      
+ TypeName : String
+ 
+ ArrayInitializer:
+                { [ Expression { , Expression} [ , ]] }
+                
+ Assignment:
+    Expression AssignmentOperator Expression
+ AssignmentOperator : = &= |= ^= /= <<== -= += %= >>= >>>= *=   
+    
+ BooleanLiteral : true | false
+ 
+ CastExpression: (Type) Expression 
+  
+ CharacterLiteral: char
+ 
+ ConditionalExpression: Expression ? Expression : Expression 
+  
+ FieldAccess: Expression . Identifier 
+  
+ InfixExpression: Expression InfixOperator Expression { InfixOperator Expression }  
+ InfixOperator: * / % + - << >> >>> < > <= >= == !=  ^ & | && ||  
+ 
+ InstanceOfExpression: Expression instanceof Type
+ 
+ MethodInvocation: [ Expression . ] [ < Type { , Type } > ] Identifier ( [ Expression { , Expression } ] )
+ 
+ Name : SimpleName | QualifiedName
+ 
+ QualifiedName : Name . SimpleName
+ 
+ NullLiteral : null
+ 
+ NumberLiteral : Number Literal
+ 
+ ParenthesizedExpression: (Expression)
+ 
+ PostfixExpression: Expression PostfixOperator
+ PostfixOperator : ++ | --
+ 
+ PrefixExpression: PrefixOperator Expression
+ PrefixOperator: ++ -- + - ~ !
+ 
+ StringLiteral : String Literal
+ 
+ SuperFieldAccess : [ClassName.] super.Identifier
+ 
+ SuperMethodInvocation: [ClassName.] super. [<Type {,Type}>] Identifier([Expression {,Expression}])
+ 
+ ThisExpression: [ ClassName . ] this
+ 
+ TypeLiteral : (Type | void) .class
+ 
+  VariableDeclarationExpression:
+    { ExtendedModifier } Type VariableDeclarationFragment
+         { , VariableDeclarationFragment }
+  VariableDeclarationFragment:
+    Identifier { Dimension } [ = Expression ]
+ 
+ 
+ 
+ 
+                            
