@@ -29,5 +29,9 @@ public class FieldAccess extends Expression {
 		score = score.add(expression.getScore(keywords)).add(simpleName.getScore(keywords));
 		return score;
 	}
+	
+	public Type getType() {
+		return simpleName.getType();
+	}
 
 }

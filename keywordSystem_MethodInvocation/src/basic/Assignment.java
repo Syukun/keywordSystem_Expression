@@ -30,4 +30,7 @@ public class Assignment extends Expression {
 		return score;
 	}
 
+	public Type getType() {
+		return new PrimitiveType("boolean");
+	}
 }

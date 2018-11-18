@@ -6,7 +6,7 @@ import java.util.List;
 /*
  * has set
  */
-public class TypeName {
+public class TypeName extends Type{
 	String typeName;
 	public TypeName(String typeName) {
 		this.typeName = typeName;

@@ -22,7 +22,9 @@ public class BooleanLiteral extends Expression{
 		ScoreDef.checkInKeyword(score, String.valueOf(b), keywords);
 		return score;
 	}
-	
-	
+	// maybe could change to number 
+	public Type getType() {
+		return new PrimitiveType("boolean");
+	}
 	
 }

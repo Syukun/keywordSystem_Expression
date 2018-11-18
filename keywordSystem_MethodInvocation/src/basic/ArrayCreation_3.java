@@ -34,6 +34,9 @@ public class ArrayCreation_3 extends ArrayCreation {
 		score = score.add(primitiveType.getScore(keywords)).add(arrayInitializer.getScore(keywords));
 		return score;
 	}
-	
+
+	public Type getType() {
+		return new ArrayType(primitiveType, dims);
+	}
 
 }

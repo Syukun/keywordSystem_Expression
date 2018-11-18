@@ -33,4 +33,39 @@ public class InfixExpression extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {		
+		switch(infixOperator.toString()) {
+			case InfixOperator.ONE:
+			case InfixOperator.TWO:
+			case InfixOperator.THREE:
+			case InfixOperator.FOUR:
+			case InfixOperator.FIVE:
+			case InfixOperator.SIX:
+			case InfixOperator.SEVEN:
+			case InfixOperator.EIGHT:
+				if(leftExp.getType().equals(rightExp.getType())) {
+					return leftExp.getType();
+				}else {
+					System.out.println("Not matching types of leftExpression and rightExpression in class InfixExpression");
+				}
+				break;
+			case InfixOperator.NINE:
+			case InfixOperator.TEN:
+			case InfixOperator.ELEVEN:
+			case InfixOperator.TWELWE:
+			case InfixOperator.THIRTEEN:
+			case InfixOperator.FOURTEEN:
+			case InfixOperator.FIFTEEN:
+			case InfixOperator.SIXTEEN:
+			case InfixOperator.SEVENTEEN:
+			case InfixOperator.EIGHTEEN:
+				return new PrimitiveType("boolean");
+			default : System.out.println("Not matching of infix operator");
+		}
+		return null;
+	}
+
+	
+	
 }

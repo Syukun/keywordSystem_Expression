@@ -8,5 +8,7 @@ public abstract class Name extends Expression {
 	public abstract String toString();
 
 	public abstract BigDecimal getScore(List<String> keywords);
+	
+	public abstract Type getType();
 
 }

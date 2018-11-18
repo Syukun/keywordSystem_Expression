@@ -20,6 +20,8 @@ public class CharacterLiteral extends Expression {
 		return score;
 	}
 	
-	
+	public Type getType() {
+		return new PrimitiveType("char");
+	}
 
 }

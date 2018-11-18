@@ -41,6 +41,19 @@ public class ArrayInitializer extends Expression{
 		}
 		return score;
 	}
+
+	// need to be test whether it is true
+	@Override
+	public Type getType() {
+		Type t;
+		if(expressions == null) {
+			// use ASTParser to distinguish
+			t = Type.OBJECT;
+		}else {
+			t = expressions.get(0).getType();
+		}
+		return t;
+	}
 	
 	
 }

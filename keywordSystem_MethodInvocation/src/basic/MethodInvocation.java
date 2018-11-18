@@ -61,5 +61,9 @@ public class MethodInvocation extends Expression{
 		}
 		return score;
 	}
+	
+	public Type getType() {
+		return identifier.getType();
+	}
 
 }

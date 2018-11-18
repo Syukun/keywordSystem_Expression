@@ -10,12 +10,12 @@ import java.util.List;
 
 public class ArrayCreation_4 extends ArrayCreation {
 
-	TypeName typeName;
+	Type typeName;
 	GenericTypes genericTypes;
 	Dims dims;
 	ArrayInitializer arrayInitializer;
 
-	public ArrayCreation_4(TypeName typeName, GenericTypes genericTypes, Dims dims,
+	public ArrayCreation_4(Type typeName, GenericTypes genericTypes, Dims dims,
 			basic.ArrayInitializer arrayInitializer) {
 		super();
 		this.typeName = typeName;
@@ -44,6 +44,12 @@ public class ArrayCreation_4 extends ArrayCreation {
 		}
 		score = score.add(arrayInitializer.getScore(keywords));
 		return score;
+	}
+	
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return new ArrayType(typeName,dims);
 	}
 
 }

@@ -29,5 +29,17 @@ public class ConditionalExpression extends Expression {
 				.add(elseExpression.getScore(keywords));
 		return score;
 	}
+	
+	public Type getType() {
+		Type t = null;
+		
+		if(thenExpression.getType().equals(elseExpression.getType())) {
+			t =  thenExpression.getType();
+		}else {
+			System.out.println("thenExpression's Type is different from elseExpression's");
+		}
+		
+		return t;
+	}
 
 }

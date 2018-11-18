@@ -26,4 +26,12 @@ public class InstanceOfExpression extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		
+		return new PrimitiveType("boolean");
+	}
+	
+	
+
 }

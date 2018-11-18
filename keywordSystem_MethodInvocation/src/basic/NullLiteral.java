@@ -17,5 +17,9 @@ public class NullLiteral extends Expression {
 		ScoreDef.checkInKeyword(score, "null", keywords);
 		return score;
 	}
+	
+	public Type getType() {
+		return Type.NULL;
+	}
 
 }
