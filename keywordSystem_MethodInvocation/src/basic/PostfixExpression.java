@@ -30,4 +30,10 @@ public class PostfixExpression extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return expression.getType();
+	}
+
 }

@@ -29,4 +29,12 @@ public class QualifiedName extends Name {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return simpleName.getType();
+	}
+	
+	
+
 }

@@ -63,4 +63,10 @@ public class SuperMethodInvocation extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return name.getType();
+	}
+
 }

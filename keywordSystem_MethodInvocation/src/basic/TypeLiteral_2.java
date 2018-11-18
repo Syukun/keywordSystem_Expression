@@ -20,5 +20,11 @@ public class TypeLiteral_2 extends TypeLiteral {
 		ScoreDef.checkInKeyword(score, "class", keywords);
 		return score;
 	}
+	
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return new TypeName("ClassType");
+	}
 
 }

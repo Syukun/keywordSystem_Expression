@@ -34,4 +34,10 @@ public class ThisExpression extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return className.getType();
+	}
+
 }

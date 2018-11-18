@@ -27,4 +27,11 @@ public class ParenthesizedExpression extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return expression.getType();
+	}
+
+	
 }

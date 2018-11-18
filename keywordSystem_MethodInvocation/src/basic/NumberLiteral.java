@@ -25,4 +25,12 @@ public class NumberLiteral extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return new PrimitiveType("Integer");
+	}
+	
+	
+
 }

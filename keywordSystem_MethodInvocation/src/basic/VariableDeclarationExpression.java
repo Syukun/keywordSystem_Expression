@@ -42,4 +42,12 @@ public class VariableDeclarationExpression extends Expression {
 		return score;
 	}
 
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return new PrimitiveType("boolean");
+	}
+	
+	
+
 }

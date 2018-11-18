@@ -29,5 +29,11 @@ public class PrefixExpression extends Expression {
 		score = score.add(prefixOperator.getScore(keywords)).add(expression.getScore(keywords));
 		return score;
 	}
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return expression.getType();
+	}
+
 
 }

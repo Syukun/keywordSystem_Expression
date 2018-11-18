@@ -28,4 +28,11 @@ public class TypeLiteral_1 extends TypeLiteral {
 		return score;
 	}
 
+	// I don't know what it is right now
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return new TypeName("ClassType");
+	}
+
 }

@@ -37,5 +37,9 @@ public class SuperFieldAccess extends Expression {
 		score = score.add(identifier.getScore(keywords));
 		return score;
 	}
+	
+	public Type getType() {
+		return identifier.getType();
+	}
 
 }
