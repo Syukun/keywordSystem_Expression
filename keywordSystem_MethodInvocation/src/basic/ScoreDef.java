@@ -1,7 +1,12 @@
 package basic;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Vector;
+
+import generator.MethodsWithBeamWidth;
 
 public class ScoreDef {
 
@@ -35,6 +40,29 @@ public class ScoreDef {
 		}else {
 			score = score.add(WNIK);
 		}
+	}
+	
+	public static void selectMaxBWExpressions(Vector<Expression> result, List<String> keywords) {
+		Collections.sort(result,new Comparator<Expression>() {
+			@Override
+			public int compare(Expression e1, Expression e2) {
+				return e1.getScore(keywords).compareTo(e2.getScore(keywords));
+			}
+			
+		});
+		Vector<Expression> temp = new Vector<Expression>();
+		int count = 0;
+		while(count < MethodsWithBeamWidth.BEAMWIDTH) {
+			if(count < result.size()) {
+				temp.add(result.get(count));
+			}else {
+				break;
+			}
+			count ++;
+		}
+		result.clear();
+		result.addAll(temp);
+
 	}
 	
 }
