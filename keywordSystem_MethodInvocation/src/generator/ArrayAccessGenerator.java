@@ -5,13 +5,14 @@ import java.util.Vector;
 
 import basic.ArrayAccess;
 import basic.Expression;
+import basic.ScoreDef;
 import basic.Type;
 
 public class ArrayAccessGenerator extends ExpressionGenerator {
 	// generate all ArrayAccess under depth.
 	int bw = MethodsWithBeamWidth.BEAMWIDTH;
-	Vector<Map<Type,Vector<ArrayAccess>>> maxBWArrayAccessExactDepth = new Vector<Map<Type,Vector<ArrayAccess>>>();
-	Vector<Map<Type,Vector<ArrayAccess>>> maxBWArrayAccessLEQDepth = new Vector<Map<Type,Vector<ArrayAccess>>>();
+	static Vector<Map<Type,Vector<ArrayAccess>>> maxBWArrayAccessExactDepth = new Vector<Map<Type,Vector<ArrayAccess>>>();
+	static Vector<Map<Type,Vector<ArrayAccess>>> maxBWArrayAccessLEQDepth = new Vector<Map<Type,Vector<ArrayAccess>>>();
 	
 	public static Vector<ArrayAccess> generateArrayAccess(int depth, String keywords) {
 		Vector<ArrayAccess> arrayAccessVector = new Vector<ArrayAccess>();
