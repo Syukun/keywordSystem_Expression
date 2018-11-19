@@ -1,5 +1,6 @@
 package generator;
 
+import java.util.Map;
 import java.util.Vector;
 
 import basic.ArrayAccess;
@@ -8,7 +9,10 @@ import basic.Type;
 
 public class ArrayAccessGenerator extends ExpressionGenerator {
 	// generate all ArrayAccess under depth.
-
+	int bw = MethodsWithBeamWidth.BEAMWIDTH;
+	Vector<Map<Type,Vector<ArrayAccess>>> maxBWArrayAccessExactDepth = new Vector<Map<Type,Vector<ArrayAccess>>>();
+	Vector<Map<Type,Vector<ArrayAccess>>> maxBWArrayAccessLEQDepth = new Vector<Map<Type,Vector<ArrayAccess>>>();
+	
 	public static Vector<ArrayAccess> generateArrayAccess(int depth, String keywords) {
 		Vector<ArrayAccess> arrayAccessVector = new Vector<ArrayAccess>();
 		if (depth < 2) {
@@ -50,22 +54,6 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 			Vector<Expression> exps = new ExpressionGenerator().generateExpression(depth - 2, keywords);
 			switch (arity) {
 			case 2:
-				if (isBitOn(exactFlags, arity - 1)) {
-					if (expExacts.size() > 0) {
-						for (Expression expExact : expExacts) {
-							subExps[arity - 1] = expExact;
-							generateWithArityAuxi(arity - 1, depth, exactFlags, keywords, subExps, result);
-						}
-					}
-				} else {
-					if (exps.size() > 0) {
-						for (Expression exp : exps) {
-							subExps[arity - 1] = exp;
-							generateWithArityAuxi(arity - 1, depth, exactFlags, keywords, subExps, result);
-						}
-					}
-				}
-				break;
 			case 1:
 				if (isBitOn(exactFlags, arity - 1)) {
 					if (expExacts.size() > 0) {

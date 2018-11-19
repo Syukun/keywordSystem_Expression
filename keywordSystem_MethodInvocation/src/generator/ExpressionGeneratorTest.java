@@ -17,7 +17,7 @@ class ExpressionGeneratorTest {
 
 	@Test
 	void testGenerator() {
-		VectorOfElements.initStringLiteralVector();
+		VectorOfElements.initByParsing();
 		Vector<Expression> exps = new Vector<Expression>();
 		// 1. ArrayAccess
 		Vector<ArrayAccess> arrayAccess = ArrayAccessGenerator.generateArrayAccessExact(2, keywords);
