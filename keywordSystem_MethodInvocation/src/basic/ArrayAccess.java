@@ -28,6 +28,9 @@ public class ArrayAccess extends Expression{
 		score = score.add(arrayExp.getScore(keywords)).add(indexExp.getScore(keywords));
 		return score;
 	}
+	public BigDecimal getScore(String keywords) {
+		return this.getScore(new ScoreDef().splitKeyword(keywords));
+	}
 	
 	public Type getType() {
 		return arrayExp.getType();

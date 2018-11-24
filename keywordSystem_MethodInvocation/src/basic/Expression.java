@@ -7,4 +7,8 @@ public abstract class Expression {
 	public abstract String toString();
 	public abstract BigDecimal getScore(List<String> keywords);
 	public abstract Type getType();
+	public BigDecimal getScore(String keywords) {
+		return this.getScore(new ScoreDef().splitKeyword(keywords));
+	}
+	
 }

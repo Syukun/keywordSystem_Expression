@@ -1,10 +1,12 @@
 package basic;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import generator.MethodsWithBeamWidth;
 
@@ -42,7 +44,7 @@ public class ScoreDef {
 		}
 	}
 	
-	public static void selectMaxBWExpressions(Vector<Expression> result, List<String> keywords) {
+	public static void selectMaxBWExpressions(Vector<Expression> result, String keywords) {
 		Collections.sort(result,new Comparator<Expression>() {
 			@Override
 			public int compare(Expression e1, Expression e2) {
@@ -63,6 +65,11 @@ public class ScoreDef {
 		result.clear();
 		result.addAll(temp);
 
+	}
+	
+	public List<String> splitKeyword(String keywords) {
+		return Arrays.asList(keywords.toLowerCase().split("[^\\w]")).stream().distinct().collect(Collectors.toList());
+//		return new ArrayList<String>(Arrays.asList(keywords.toLowerCase().split("[^\\w]")));
 	}
 	
 }
