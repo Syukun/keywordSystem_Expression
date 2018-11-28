@@ -8,6 +8,8 @@ public abstract class Type {
 	public abstract BigDecimal getScore(List<String> keywords);
 	public static final TypeName OBJECT = new TypeName ("Object");
 	public static final TypeName NULL = new TypeName("null");
+	public static final TypeName ALL = new TypeName("all");
+	
 }
 
 

@@ -1,33 +1,40 @@
 package generator;
 
-import java.util.Map;
 import java.util.Vector;
 
 import basic.Expression;
-import basic.ScoreDef;
 import basic.Type;
+import vector.VectorOfElements;
 
-public class ExpressionGenerator extends Generator{
-	Vector<Map<Type, Vector<Expression>>> maxBWExpressionExactDepth = new Vector<Map<Type, Vector<Expression>>>();
-	Vector<Map<Type, Vector<Expression>>> maxBWExpressionLEQDepth = new Vector<Map<Type, Vector<Expression>>>();
+public class ExpressionGenerator extends Generator {
 
-	public Vector<Expression> generateExpression(int depth, String keywords,
-			Vector<Map<Type, Vector<Expression>>> maxExpsExact, Vector<Map<Type, Vector<Expression>>> maxExps) {
-		Vector<Expression> expressions = new Vector<Expression>();
-		new ExpressionGenerator().genericGenerate(depth, keywords, maxExpsExact, maxExps, expressions);
-		return expressions;
+	@Override
+	public Generator[] getSubGenerators(Type t) {
+		// TODO Auto-generated method stub
+		return new Generator[] { new ExpressionGenerator(), new StringLiteralGenerator(), new ArrayAccessGenerator() };
 	}
 
-	public Vector<Expression> generateExpressionExact(int depth, String keywords) {
-		Vector<Expression> expressionVector_Exact = new Vector<Expression>();
-		if (depth < 1) {
-		}
-		if (depth == 1) {
-			expressionVector_Exact.addAll(StringLiteralGenerator.generateStringLiteral(depth, keywords));
-		}
-		if (depth > 1) {
-			expressionVector_Exact.addAll(ArrayAccessGenerator.generateArrayAccessExact(depth, keywords));
-		}
-		return expressionVector_Exact;
+	@Override
+	public Vector<Type> getAllReceiverTypeName() {
+		// TODO Auto-generated method stub
+		return VectorOfElements.allTypes;
 	}
+
+	@Override
+	public Generator[] getParameterGenerators() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Type[] getParameterTypes(Type t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
+		// TODO Auto-generated method stub
+	}
+
 }
