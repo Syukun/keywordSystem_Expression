@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class PrimitiveType extends Type{
 	String name;
+	public static final PrimitiveType INT = new PrimitiveType("Integer");
+	public static final PrimitiveType STRING = new PrimitiveType("String");
 	public PrimitiveType(String name) {
 		this.name = name;
 	}

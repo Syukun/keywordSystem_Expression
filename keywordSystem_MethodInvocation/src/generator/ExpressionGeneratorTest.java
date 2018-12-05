@@ -12,17 +12,21 @@ import vector.VectorOfElements;
 
 class ExpressionGeneratorTest {
 
-	int depth = 2;
+	int depth = 1;
 	String keywords = "some";
 
 	@Test
 	void testGenerator() {
 		VectorOfElements.initByParsing();
-		// 1. ArrayAccess
-//		Vector<ArrayAccess> arrayAccess = ArrayAccessGenerator.generateArrayAccessExact(2, keywords);
-//		assertEquals(arrayAccess.size(),4);
-//		assertEquals(arrayAccess.get(0).toString(),"a[a]");
-		
+		// 1. Expression
+		Vector<Expression> exps = new ExpressionGenerator().generateExpression(depth, keywords);
+		assertEquals(exps.size(),2);
+		// 2. StringLiteral
+		Vector<Expression> strLiterals = new StringLiteralGenerator().generateExpression(depth, keywords);
+		assertEquals(strLiterals.size(),2);
+		depth = 2;
+		// 3. ArrayAccess
+		Vector<Expression> arrayAccesses = new ArrayAccessGenerator().generateExpression(depth, keywords);
 	}
 
 }

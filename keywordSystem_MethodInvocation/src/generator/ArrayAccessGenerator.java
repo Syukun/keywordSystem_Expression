@@ -1,5 +1,6 @@
 package generator;
 
+import java.util.Map;
 import java.util.Vector;
 
 import basic.ArrayAccess;
@@ -9,6 +10,8 @@ import basic.Type;
 import vector.VectorOfElements;
 
 public class ArrayAccessGenerator extends ExpressionGenerator {
+	static Vector<Map<Type, Vector<Expression>>> maxExpressions = new Vector<Map<Type, Vector<Expression>>>();
+	static Vector<Map<Type, Vector<Expression>>> maxExpressionsExact = new Vector<Map<Type, Vector<Expression>>>();
 
 	@Override
 	public Generator[] getParameterGenerators() {
@@ -17,9 +20,9 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 	}
 
 	@Override
-	public Type[] getParameterTypes(Type t) {
+	public Type[] getParameterTypes() {
 		// TODO Auto-generated method stub
-		return new Type[] { t, new PrimitiveType("Integer") };
+		return new Type[] { Type.ALL, new PrimitiveType("Integer") };
 	}
 
 	@Override
@@ -34,18 +37,24 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 	}
 
 	@Override
-	public Generator[] getSubGenerators(Type t) {
-		return new Generator[] { 
-				new ArrayAccessGenerator() {
-					@Override
-					public Vector<Type> getAllReceiverTypeName(){
-						Vector<Type> types = new Vector<Type>();
-						types.add(t);
-						return types;
-					}
-								
-		} };
+	public Vector<Generator> getSubGenerators() {
+		Vector<Generator> result = new Vector<Generator>();
+		result.add(this);
+		return result;
+	}
 
+	@Override
+	public Vector<Generator> getSubGenerators(Type t) {
+		Vector<Generator> result = new Vector<Generator>();
+		result.add(new ArrayAccessGenerator() {
+			@Override
+			public Type[] getParameterTypes() {
+				// TODO Auto-generated method stub
+				return new Type[] { t, new PrimitiveType("Integer") };
+			}
+
+		});
+		return result;
 	}
 
 }

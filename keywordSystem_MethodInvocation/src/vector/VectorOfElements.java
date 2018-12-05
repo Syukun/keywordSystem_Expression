@@ -1,6 +1,7 @@
 package vector;
 import java.util.Vector;
 
+import basic.PrimitiveType;
 import basic.StringLiteral;
 import basic.Type;
 import basic.TypeName;
@@ -14,8 +15,8 @@ public class VectorOfElements {
 	}
 	private static void initType() {
 		// TODO Auto-generated method stub
-		allTypes.add(new TypeName("String"));
-		allTypes.add(new TypeName("boolean"));
+		allTypes.add(PrimitiveType.STRING);
+		allTypes.add(PrimitiveType.INT);
 	}
 	// solve the visibility later
 	private static void initStringLiteralVector() {

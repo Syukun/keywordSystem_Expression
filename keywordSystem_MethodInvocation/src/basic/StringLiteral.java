@@ -28,7 +28,7 @@ public class StringLiteral extends Expression{
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return new PrimitiveType("Stirng");
+		return PrimitiveType.STRING;
 	}
 
 	
