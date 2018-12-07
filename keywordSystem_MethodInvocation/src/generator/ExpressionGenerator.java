@@ -1,5 +1,7 @@
 package generator;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import basic.Expression;
@@ -7,46 +9,35 @@ import basic.Type;
 import vector.VectorOfElements;
 
 public class ExpressionGenerator extends Generator {
-	
+
 	@Override
 	public Vector<Generator> getSubGenerators() {
-		Vector<Generator> result = new Vector<Generator>();
-		result.add(new StringLiteralGenerator());
-		result.add(new ArrayAccessGenerator());
-		return result;
+		Vector<Generator> expressionGenerator = new Vector<Generator>();
+		expressionGenerator.add(new ArrayAccessGenerator());
+		expressionGenerator.add(new StringLiteralGenerator());
+		return expressionGenerator;
 	}
-	
+
+	public Generator[] getParameterGenerators() throws NullPointerException{
+		return null;
+	}
+
+	public void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {}
+
+	public Vector<Vector<Type>> getPossibleParameterTypes() throws NullPointerException{
+		return null;
+	}
+
 	@Override
-	public Vector<Generator> getSubGenerators(Type t) {
-		Vector<Generator> result = new Vector<Generator>();
+	public Set<Type> getAllReceiveTypeName() {
+		Set<Type> allReceiveTypeName = new HashSet<Type>();
 		for(Generator g : this.getSubGenerators()) {
-			result.addAll(g.getSubGenerators(t));
+			allReceiveTypeName.addAll(g.getAllReceiveTypeName());
 		}
-		return result;
+		return allReceiveTypeName;
 	}
 
-	@Override
-	public Vector<Type> getAllReceiverTypeName() {
-		// TODO Auto-generated method stub
-		return VectorOfElements.allTypes;
-	}
-
-	@Override
-	public Generator[] getParameterGenerators() {
-		System.out.println("error in getParameterGenerators in class ExpressionGenerator");
-		return null;
-	}
-
-	@Override
-	public Type[] getParameterTypes() {
-		System.out.println("error in getParameterTypes in class ExpressionGenerator");
-		return null;
-	}
-
-	@Override
-	public void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
-		// TODO Auto-generated method stub
-	}
+	public void changeProperties(Type t) {}
 	
 
 
