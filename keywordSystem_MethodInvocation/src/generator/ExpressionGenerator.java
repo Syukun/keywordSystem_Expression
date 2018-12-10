@@ -6,25 +6,27 @@ import java.util.Vector;
 
 import basic.Expression;
 import basic.Type;
-import vector.VectorOfElements;
 
 public class ExpressionGenerator extends Generator {
 
 	@Override
 	public Vector<Generator> getSubGenerators() {
 		Vector<Generator> expressionGenerator = new Vector<Generator>();
-		expressionGenerator.add(new ArrayAccessGenerator());
+//		expressionGenerator.add(new ArrayAccessGenerator());
 		expressionGenerator.add(new StringLiteralGenerator());
+		expressionGenerator.add(new NumberLiteralGenerator());
 		return expressionGenerator;
 	}
 
-	public Generator[] getParameterGenerators() throws NullPointerException{
-		return null;
+	public Generator[] getParameterGenerators(){
+//		System.out.println("Line 22 in Class Expression Generator");
+		return new Generator[] {};
 	}
 
 	public void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {}
 
-	public Vector<Vector<Type>> getPossibleParameterTypes() throws NullPointerException{
+	public Vector<Set<Type>> getPossibleParameterTypes(){
+		System.out.println("Line 29 in Class Expression Generator");
 		return null;
 	}
 
@@ -37,7 +39,12 @@ public class ExpressionGenerator extends Generator {
 		return allReceiveTypeName;
 	}
 
-	public void changeProperties(Type t) {}
+	public Generator changeProperties(Type t) {
+		return this;
+	}
+	
+	
+	
 	
 
 

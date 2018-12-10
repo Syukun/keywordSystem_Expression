@@ -9,8 +9,7 @@ import basic.PrimitiveType;
 import basic.Type;
 import vector.VectorOfElements;
 
-public class StringLiteralGenerator extends ExpressionGenerator {
-	
+public class NumberLiteralGenerator extends ExpressionGenerator{
 	@Override
 	public Vector<Generator> getSubGenerators(){
 //		System.out.println("Line 16 in Class StringLiteralGenerator");
@@ -23,12 +22,13 @@ public class StringLiteralGenerator extends ExpressionGenerator {
 	
 	@Override
 	public void generateWithSubExps(Expression[] subExps,Vector<Expression> result) {
-		result.addAll(VectorOfElements.stringLiteralVector);
+		result.addAll(VectorOfElements.numberLiterealVector);
 	}
 	@Override
 	public Set<Type> getAllReceiveTypeName(){
 		Set<Type> allReceiveTypeName = new HashSet<Type>();
-		allReceiveTypeName.add(PrimitiveType.STRING);
+		allReceiveTypeName.add(PrimitiveType.INT);
 		return allReceiveTypeName;
 	}
+
 }

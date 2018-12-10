@@ -17,33 +17,28 @@ public class Table {
 	// table1 and table2 in all generators
 	public static Map<Class<?>, PairOfTable> allTables = new HashMap<Class<?>, PairOfTable>();
 
-	public void initializeAllTables() {
+	public static void initializeAllTables(int depth) {
 		for (Generator g : Generator.getAllGenetators()) {
-			PairOfTable tables = null;
-			initializePairOfTable(tables, g);
+			// System.out.println("name 1 : " + g.getClass().getName());
+			Table table1 = new Table(new Vector<Map<Type, Vector<Expression>>>());
+			Table table2 = new Table(new Vector<Map<Type, Vector<Expression>>>());
+			initializeTable(table1, g, depth);
+			initializeTable(table2, g, depth);
+			PairOfTable tables = new PairOfTable(table1, table2);
 			allTables.put(g.getClass(), tables);
 		}
 	}
 
-	private void initializePairOfTable(PairOfTable tables, Generator g) {
-		Table table1 = new Table(new Vector<Map<Type, Vector<Expression>>>());
-		Table table2 = new Table(new Vector<Map<Type, Vector<Expression>>>());
-		initializeTable(table1, g);
-		initializeTable(table2, g);
-		tables = new PairOfTable(table1, table2);
-	}
-
 	// if arity > 1 then it need to be add to depth 2
-	private void initializeTable(Table table, Generator g) {
-		int arity = g.getParameterGenerators().length;
+	private static void initializeTable(Table table, Generator g, int depth) {
 		Map<Type, Vector<Expression>> initialElement = new HashMap<Type, Vector<Expression>>();
 		for (Type t : g.getAllReceiveTypeName()) {
 			initialElement.put(t, new Vector<Expression>());
 		}
-		table.mappingFromTypeToExps.add(initialElement);
-		if(arity>0) {
+		for (int i = 0; i < depth; i++) {
 			table.mappingFromTypeToExps.add(initialElement);
 		}
+
 	}
 
 }
