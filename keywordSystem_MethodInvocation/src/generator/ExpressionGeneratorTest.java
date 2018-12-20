@@ -12,8 +12,8 @@ import vector.VectorOfElements;
 
 class ExpressionGeneratorTest {
 
-	int depth = 1;
-	String keywords = "some";
+	int depth = 2;
+	String keywords = "add line";
 
 	@Test
 	void testGenerator() {

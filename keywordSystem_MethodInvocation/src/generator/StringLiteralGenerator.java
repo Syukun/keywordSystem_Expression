@@ -12,7 +12,7 @@ import vector.VectorOfElements;
 public class StringLiteralGenerator extends ExpressionGenerator {
 	
 	@Override
-	public Vector<Generator> getSubGenerators(){
+	public Vector<Generator> getSubGenerators(int depth){
 //		System.out.println("Line 16 in Class StringLiteralGenerator");
 		return null;
 	}

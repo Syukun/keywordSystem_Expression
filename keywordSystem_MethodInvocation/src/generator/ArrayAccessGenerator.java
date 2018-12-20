@@ -12,8 +12,7 @@ import basic.Type;
 public class ArrayAccessGenerator extends ExpressionGenerator {
 
 	@Override
-	public Vector<Generator> getSubGenerators() {
-		System.out.println("Line 9 in Class ArrayAccessGenerator");
+	public Vector<Generator> getSubGenerators(int depth) {
 		return null;
 	}
 

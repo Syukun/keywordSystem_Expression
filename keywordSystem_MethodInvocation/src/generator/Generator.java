@@ -18,7 +18,7 @@ public abstract class Generator {
 	 * ArrayAccessGenerator()} ArrayAccessGenerator : null StringLiteralGenerator :
 	 * null
 	 */
-	public abstract Vector<Generator> getSubGenerators();
+	public abstract Vector<Generator> getSubGenerators(int depth);
 
 	public abstract Generator[] getParameterGenerators();
 
@@ -37,91 +37,67 @@ public abstract class Generator {
 	public Vector<Expression> generateExpression(int depth, String keywords) {
 		Vector<Expression> result = new Vector<Expression>();
 		Table.initializeAllTables(depth);
-		this.fillTwoTablesUnderDepth(depth, keywords);
+		this.fillTableOneInDepth(depth, keywords);
 		for (Vector<Expression> expsLEDepOfEachType : getAllExpressionsUnderDepth(depth)) {
 			result.addAll(expsLEDepOfEachType);
 		}
-//		result.stream().forEach(System.out::println);
+		// result.stream().forEach(System.out::println);
 		ScoreDef.selectMaxBWExpressions(result, keywords);
 		return result;
 	}
 
 	public Collection<Vector<Expression>> getAllExpressionsUnderDepth(int depth) {
 		// TODO Auto-generated method stub
-//		System.out.println(this.getClass().getName());
-//		System.out.println(this.getTableOne().mappingFromTypeToExps.get(depth).size());
+		// System.out.println(this.getClass().getName());
+		// System.out.println(this.getTableOne().mappingFromTypeToExps.get(depth).size());
 		return getMappingUnderDepth(depth).values();
 	}
-	
+
 	public Table getTableOne() {
 		// TODO Auto-generated method stub
-		
+
 		return Table.allTables.get(this.getClass()).table1;
 	}
+
 	public Table getTableTwo() {
 		// TODO Auto-generated method stub
 		return Table.allTables.get(this.getClass()).table2;
 	}
 
 	private Map<Type, Vector<Expression>> getMappingUnderDepth(int depth) {
-		return this.getTableOne().mappingFromTypeToExps.get(depth-1);
-	}
-	private Map<Type, Vector<Expression>> getMappingInDepth(int depth) {
-		return this.getTableTwo().mappingFromTypeToExps.get(depth-1);
-	}
-	public void fillTwoTablesUnderDepth(int depth, String keywords) {
-		for (int d = 1; d <= depth; d++) {
-			fillTwoTablesInDepth(d, keywords);
-		}
+		return this.getTableOne().mappingFromTypeToExps.get(depth - 1);
 	}
 
-	public void fillTwoTablesInDepth(int depth, String keywords) {
-		Vector<Generator> subGenerators = this.getSubGenerators();
-		for (Type t : this.getAllReceiveTypeName()) {
+	private Map<Type, Vector<Expression>> getMappingInDepth(int depth) {
+		return this.getTableTwo().mappingFromTypeToExps.get(depth - 1);
+	}
+
+//	= depth
+	public void fillTableTwoInDepth(int depth, String keywords) {
+		for(Type t : this.getAllReceiveTypeName()) {
+			Generator g_changed = this.changeProperties(t);
+			Vector<Generator> subGenerators = g_changed.getSubGenerators(depth);
+			Map<Type,Vector<Expression>> mappingForTableTwo = g_changed.getMappingInDepth(depth);
 			Vector<Expression> result = new Vector<Expression>();
-			
-			if (subGenerators != null) {
-				for (Generator g : subGenerators) {
-					if (g.getAllReceiveTypeName().contains(t)) {
-						Generator g_t = g.changeProperties(t);
-						Vector<Expression> result_sub = new Vector<Expression>();
-						g_t.generateExpressionExact(depth, keywords, result_sub);
-						g_t.addToTables(depth, keywords, t, result_sub);
-						result.addAll(result_sub);
+			if(subGenerators == null) {
+				g_changed.generateExpressionExact(depth, keywords, result);
+				mappingForTableTwo.put(t, result);
+				
+			}else {
+				for(Generator sub_g : subGenerators) {
+					if(sub_g.getAllReceiveTypeName().contains(t)) {
+						Vector<Expression> sub_result = new Vector<Expression>();
+						Generator sub_g_changed = sub_g.changeProperties(t);
+						sub_g_changed.generateExpressionExact(depth, keywords, sub_result);
 					}
 				}
-
-				this.addToTables(depth, keywords, t, result);
-			} else {
-				if (this.getAllReceiveTypeName().contains(t)) {
-					Generator this_t = this.changeProperties(t);
-					this_t.generateExpressionExact(depth, keywords, result);
-					this_t.addToTables(depth, keywords, t, result);
-				}
 			}
-			
-			
 		}
-
 	}
-
-	public void addToTables(int depth, String keywords, Type t, Vector<Expression> result_sub) {
-		Map<Type, Vector<Expression>> maxExpsInDepth = this.getMappingUnderDepth(depth);
-		Map<Type, Vector<Expression>> maxExpsUnderDepth = this.getMappingInDepth(depth);
-
-		if (depth == 1) {
-			maxExpsUnderDepth.put(t, result_sub);
-		}
-		if (depth > 1) {
-			Vector<Expression> maxExpsUnderDepth_T = new Vector<Expression>();
-			maxExpsUnderDepth_T.addAll(this.getMappingUnderDepth(depth-1).get(t));
-			maxExpsUnderDepth_T.addAll(result_sub);
-			ScoreDef.selectMaxBWExpressions(maxExpsUnderDepth_T, keywords);
-			maxExpsUnderDepth.put(t, maxExpsUnderDepth_T);
-		}
-		maxExpsInDepth.put(t, result_sub);
+//	≤ depth
+	public void fillTableOneInDepth(int depth, String keywords) {
+		
 	}
-
 
 	public void generateExpressionExact(int depth, String keywords, Vector<Expression> result) {
 		int arity = this.getParameterGenerators().length;
@@ -181,11 +157,8 @@ public abstract class Generator {
 	}
 
 	public static Generator[] getAllGenetators() {
-		return new Generator[] { 
-				new ExpressionGenerator(),
-				new StringLiteralGenerator(), 
-				new ArrayAccessGenerator() ,
-				new NumberLiteralGenerator()};
+		return new Generator[] { new ExpressionGenerator(), new StringLiteralGenerator(), new ArrayAccessGenerator(),
+				new NumberLiteralGenerator() };
 	}
 
 }

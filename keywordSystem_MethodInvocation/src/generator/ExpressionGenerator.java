@@ -10,11 +10,14 @@ import basic.Type;
 public class ExpressionGenerator extends Generator {
 
 	@Override
-	public Vector<Generator> getSubGenerators() {
+	public Vector<Generator> getSubGenerators(int depth) {
 		Vector<Generator> expressionGenerator = new Vector<Generator>();
-//		expressionGenerator.add(new ArrayAccessGenerator());
-		expressionGenerator.add(new StringLiteralGenerator());
-		expressionGenerator.add(new NumberLiteralGenerator());
+		if(depth == 1) {
+			expressionGenerator.add(new StringLiteralGenerator());
+			expressionGenerator.add(new NumberLiteralGenerator());
+		}else {
+			expressionGenerator.add(new ArrayAccessGenerator());
+		}
 		return expressionGenerator;
 	}
 
@@ -33,7 +36,9 @@ public class ExpressionGenerator extends Generator {
 	@Override
 	public Set<Type> getAllReceiveTypeName() {
 		Set<Type> allReceiveTypeName = new HashSet<Type>();
-		for(Generator g : this.getSubGenerators()) {
+		Vector<Generator> allGenerator = this.getSubGenerators(1);
+		allGenerator.addAll(this.getSubGenerators(2));
+		for(Generator g : allGenerator) {
 			allReceiveTypeName.addAll(g.getAllReceiveTypeName());
 		}
 		return allReceiveTypeName;
