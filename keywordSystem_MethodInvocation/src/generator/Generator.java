@@ -12,115 +12,50 @@ import basic.ScoreDef;
 import basic.Type;
 
 public abstract class Generator {
-
-	/*
-	 * ExpressionGenerator : {new StringLiteralGenerator(),new
-	 * ArrayAccessGenerator()} ArrayAccessGenerator : null StringLiteralGenerator :
-	 * null
-	 */
-	public abstract Vector<Generator> getSubGeneratorsByType(int depth,Type t);
-
-	public abstract Vector<Generator> getSubGenerators(int depth);
-	
+	public abstract Vector<Generator> getSubGenerators();
+	public abstract Vector<Generator> getSubGeneratorsForEachType(Type t);
 	public abstract Generator[] getParameterGenerators();
-
-	public abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
-
-	public abstract Vector<Set<Type>> getPossibleParameterTypes();
-
-	/*
-	 * ExpressionGenerator : Int | String ArrayAccessGenerator : Int | String
-	 * StringLiteralGenerator : String
-	 */
-	public abstract Set<Type> getAllReceiveTypeName();
-
+	public abstract Set<Type> getAllReceiveTypes();
+	
 	public abstract Generator changeProperties(Type t);
-
+	public abstract Vector<Set<Type>> getPossibleParameterTypes();
+	public abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
+	
 	public Vector<Expression> generateExpression(int depth, String keywords) {
 		Vector<Expression> result = new Vector<Expression>();
-		Table.initializeAllTables(depth);
-		this.fillTableOneInDepth(depth, keywords);
-		for (Vector<Expression> expsLEDepOfEachType : getAllExpressionsUnderDepth(depth)) {
+		new ExpressionGenerator().generateExpression(depth, keywords);
+		for (Vector<Expression> expsLEDepOfEachType : this.getExpressionsLEDepth(depth)) {
 			result.addAll(expsLEDepOfEachType);
 		}
-		// result.stream().forEach(System.out::println);
 		ScoreDef.selectMaxBWExpressions(result, keywords);
 		return result;
 	}
-
-	public Collection<Vector<Expression>> getAllExpressionsUnderDepth(int depth) {
-		// TODO Auto-generated method stub
-		// System.out.println(this.getClass().getName());
-		// System.out.println(this.getTableOne().mappingFromTypeToExps.get(depth).size());
-		return getMappingUnderDepth(depth).values();
+	
+	
+	public void addToTableOne(Type t, int depth, Vector<Expression> resultExps) {
+		this.getTableOneInDepth(depth).put(t, resultExps);
+	}
+	
+	public void addToTableTwo(Type t, int depth, Vector<Expression> resultExps) {
+		this.getTableTwoInDepth(depth).put(t, resultExps);
+	}
+	
+	public Collection<Vector<Expression>> getExpressionsLEDepth(int depth) {
+		return this.getTableOneInDepth(depth).values();
+	}
+	
+	public int getArity() {
+		return this.getParameterGenerators().length;
 	}
 
-	public Table getTableOne() {
-		// TODO Auto-generated method stub
-
-		return Table.allTables.get(this.getClass()).table1;
+	public Map<Type, Vector<Expression>> getTableOneInDepth(int depth) {
+		return Table.allTables.get(this.getClass()).table1.mappingFromTypeToExps.get(depth);
 	}
-
-	public Table getTableTwo() {
-		// TODO Auto-generated method stub
-		return Table.allTables.get(this.getClass()).table2;
+	
+	public Map<Type, Vector<Expression>> getTableTwoInDepth(int depth) {
+		return Table.allTables.get(this.getClass()).table2.mappingFromTypeToExps.get(depth);
 	}
-
-	private Map<Type, Vector<Expression>> getMappingUnderDepth(int depth) {
-		return this.getTableOne().mappingFromTypeToExps.get(depth - 1);
-	}
-
-	private Map<Type, Vector<Expression>> getMappingInDepth(int depth) {
-		return this.getTableTwo().mappingFromTypeToExps.get(depth - 1);
-	}
-
-//	= depth
-	public void fillTableTwoInDepth(int depth, String keywords) {
-		for(Type t : this.getAllReceiveTypeName()) {
-			Generator g_changed = this.changeProperties(t);
-			Vector<Generator> subGenerators = g_changed.getSubGenerators(depth);
-			Map<Type,Vector<Expression>> mappingForTableTwo = g_changed.getMappingInDepth(depth);
-			Vector<Expression> result = new Vector<Expression>();
-			if(subGenerators == null) {
-				g_changed.generateExpressionExact(depth, keywords, result);
-				mappingForTableTwo.put(t, result);
-				
-			}else {
-				for(Generator sub_g : subGenerators) {
-					if(sub_g.getAllReceiveTypeName().contains(t)) {
-						Vector<Expression> sub_result = new Vector<Expression>();
-						Generator sub_g_changed = sub_g.changeProperties(t);
-						sub_g_changed.generateExpressionExact(depth, keywords, sub_result);
-					}
-				}
-			}
-		}
-	}
-//	≤ depth
-	public void fillTableOneInDepth(int depth, String keywords) {
-		for(Type t : this.getAllReceiveTypeName()) {
-			Generator g_changed = this.changeProperties(t);
-			Vector<Generator> subGenerators = g_changed.getSubGeneratorsByType(depth,t);
-			Map<Type,Vector<Expression>> mappingForTableOne = g_changed.getMappingUnderDepth(depth);
-			if(subGenerators == null) {
-				int arity = g_changed.getParameterGenerators().length;
-				Vector<Expression> result = new Vector<Expression>();
-				if(arity == 0) {
-					generateExpressionExact(1,keywords,result);
-					mappingForTableOne.put(t, result);
-				}else if(depth == 2){
-					generateExpressionExact(2,keywords,result);
-					mappingForTableOne.put(t, result);
-				}else {
-					
-					g_changed.fillTableOneInDepth(depth-1, keywords);
-					result.addAll(this.getMappingUnderDepth(depth-1).get(t));
-					
-				}
-			}
-		}
-	}
-
+	
 	public void generateExpressionExact(int depth, String keywords, Vector<Expression> result) {
 		int arity = this.getParameterGenerators().length;
 		if (arity == 0 && depth == 1) {
@@ -130,15 +65,14 @@ public abstract class Generator {
 			generateWithArity(depth, arity, result);
 		}
 	}
-
+	
 	public void generateWithArity(int depth, int arity, Vector<Expression> result) {
 		for (int exactFlags = 1; exactFlags <= (1 << arity) - 1; exactFlags++) {
 			Expression[] subExps = new Expression[arity];
 			generateWithArityAuxi(depth, arity, exactFlags, result, subExps);
 		}
-
 	}
-
+	
 	public void generateWithArityAuxi(int depth, int arity, int exactFlags, Vector<Expression> result,
 			Expression[] subExps) {
 		if (arity == 0) {
@@ -157,30 +91,29 @@ public abstract class Generator {
 		}
 
 	}
-
-	public Vector<Expression> getPossibleExpressionsInDepth(int i, Set<Type> possibleParameterTypes) {
+	
+	public Vector<Expression> getPossibleExpressionsInDepth(int d, Set<Type> possibleParameterTypes) {
 		Vector<Expression> result = new Vector<Expression>();
 		for (Type t : possibleParameterTypes) {
-			result.addAll(this.getTableTwo().mappingFromTypeToExps.get(i).get(t));
+			result.addAll(this.getTableTwoInDepth(d).get(t));
 		}
 		return result;
 	}
-
-	public Vector<Expression> getPossibleExpressionsUnderDepth(int i, Set<Type> possibleParameterTypes) {
+	
+	public Vector<Expression> getPossibleExpressionsUnderDepth(int d, Set<Type> possibleParameterTypes) {
 		Vector<Expression> result = new Vector<Expression>();
 		for (Type t : possibleParameterTypes) {
-			result.addAll(this.getTableOne().mappingFromTypeToExps.get(i).get(t));
+			result.addAll(this.getTableOneInDepth(d).get(t));
 		}
 		return result;
 	}
-
+	
 	public static boolean isBitOn(int x, int i) {
 		return (x & (1 << i)) != 0;
 	}
-
+	
 	public static Generator[] getAllGenetators() {
 		return new Generator[] { new ExpressionGenerator(), new StringLiteralGenerator(), new ArrayAccessGenerator(),
 				new NumberLiteralGenerator() };
 	}
-
 }
