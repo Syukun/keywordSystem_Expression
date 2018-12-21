@@ -40,11 +40,11 @@ public abstract class Generator {
 	}
 
 	public Map<Type, Vector<Expression>> getTableOneInDepth(int depth) {
-		return Table.allTables.get(this.getClass()).table1.mappingFromTypeToExps.get(depth);
+		return Table.allTables.get(this.getClass()).table1.mappingFromTypeToExps.get(depth-1);
 	}
 	
 	public Map<Type, Vector<Expression>> getTableTwoInDepth(int depth) {
-		return Table.allTables.get(this.getClass()).table2.mappingFromTypeToExps.get(depth);
+		return Table.allTables.get(this.getClass()).table2.mappingFromTypeToExps.get(depth-1);
 	}
 	
 	public void generateExpressionExact(int depth, String keywords, Vector<Expression> result) {
@@ -52,7 +52,10 @@ public abstract class Generator {
 		if (arity == 0 && depth == 1) {
 			generateWithSubExps(new Expression[0], result);
 		}
-		if (depth > 1) {
+		if(depth == 2 && arity > 0) {
+			generateWithSubExps_NonTerminal(result);
+		}
+		if (depth > 2) {
 			generateWithArity(depth, arity, result);
 		}
 	}
@@ -69,11 +72,11 @@ public abstract class Generator {
 		if (arity == 0) {
 			generateWithSubExps(subExps, result);
 		} else {
-			Set<Type> possibleParameterTypes = this.getPossibleParameterTypes().get(arity - 1);
+			Set<Type> possibleParameterTypes_arity = this.getPossibleParameterTypes().get(arity - 1);
 			Generator parameterGenerator = this.getParameterGenerators()[arity - 1];
 			Vector<Expression> candidates = isBitOn(exactFlags, arity - 1)
-					? parameterGenerator.getPossibleExpressionsUnderDepth(depth - 1, possibleParameterTypes)
-					: parameterGenerator.getPossibleExpressionsInDepth(depth - 2, possibleParameterTypes);
+					? parameterGenerator.getPossibleExpressionsUnderDepth(depth - 1, possibleParameterTypes_arity)
+					: parameterGenerator.getPossibleExpressionsInDepth(depth - 2, possibleParameterTypes_arity);
 
 			for (Expression e : candidates) {
 				subExps[arity - 1] = e;
@@ -81,6 +84,10 @@ public abstract class Generator {
 			}
 		}
 
+	}
+	
+	public void generateWithSubExps_NonTerminal(Vector<Expression> result) {
+		
 	}
 	
 	public Vector<Expression> getPossibleExpressionsInDepth(int d, Set<Type> possibleParameterTypes) {

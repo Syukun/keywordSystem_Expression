@@ -38,10 +38,7 @@ public class StringLiteralGenerator extends ExpressionGenerator {
 	public Vector<Expression> generateExpression(int depth, String keywords) {
 		Vector<Expression> result = new Vector<Expression>();
 		new ExpressionGenerator().generateExpression(depth, keywords);
-		for (Vector<Expression> expsLEDepOfEachType : this.getExpressionsLEDepth(depth)) {
-			result.addAll(expsLEDepOfEachType);
-		}
-		ScoreDef.selectMaxBWExpressions(result, keywords);
+		result.addAll(this.getTableOneInDepth(depth).get(PrimitiveType.STRING));
 		return result;
 	}
 

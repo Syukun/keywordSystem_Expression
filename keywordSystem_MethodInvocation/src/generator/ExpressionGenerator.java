@@ -25,12 +25,13 @@ public class ExpressionGenerator extends Generator {
 	
 	public void fillTwoTables(int depth,String keywords) {
 		for(Type t : this.getAllReceiveTypes()) {
+			Vector<Expression> expsForEXP = new Vector<Expression>();
+			
 			for(Generator subG_t: this.getSubGeneratorsForEachType(t)) {
 				int arity = subG_t.getArity();
 				Vector<Expression> resultExps = new Vector<Expression>();
 				subG_t.generateExpressionExact(depth,keywords,resultExps);
-				
-				
+				expsForEXP.addAll(resultExps);
 				if(arity == 0) {
 					if(depth == 1) {
 						subG_t.addToTableTwo(t,depth,resultExps);
@@ -51,6 +52,13 @@ public class ExpressionGenerator extends Generator {
 					}
 				}
 			}
+			
+			if(depth > 1) {
+				expsForEXP.addAll(this.getTableOneInDepth(depth).get(t));
+				ScoreDef.selectMaxBWExpressions(expsForEXP, keywords);
+			}
+			this.addToTableOne(t, depth, expsForEXP);
+			this.addToTableTwo(t, depth, expsForEXP);
 			
 		}
 	}

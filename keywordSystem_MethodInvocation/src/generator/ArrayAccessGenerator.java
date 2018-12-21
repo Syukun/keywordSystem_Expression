@@ -15,8 +15,8 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 	public Vector<Generator> getSubGenerators() {
 		return new Vector<Generator>();
 	}
-	
-	public Vector<Generator> getSubGeneratorsForEachType(Type t){
+
+	public Vector<Generator> getSubGeneratorsForEachType(Type t) {
 		return new Vector<Generator>();
 	}
 
@@ -24,7 +24,7 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 	public Generator[] getParameterGenerators() {
 		return new Generator[] { new ExpressionGenerator(), new ExpressionGenerator() };
 	}
-	
+
 	@Override
 	public Set<Type> getAllReceiveTypes() {
 		Set<Type> allReceiveTypeName = new HashSet<Type>();
@@ -32,19 +32,19 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 		allReceiveTypeName.add(PrimitiveType.INT);
 		return allReceiveTypeName;
 	}
-	
+
 	@Override
 	public Generator changeProperties(Type t) {
-		return new ArrayAccessGenerator(){
+		return new ArrayAccessGenerator() {
 			@Override
-			public Set<Type> getAllReceiveTypes(){
+			public Set<Type> getAllReceiveTypes() {
 				Set<Type> allReceiveTypeName = new HashSet<Type>();
 				allReceiveTypeName.add(t);
 				return allReceiveTypeName;
 			}
-			
-			@Override 
-			public Vector<Set<Type>> getPossibleParameterTypes(){
+
+			@Override
+			public Vector<Set<Type>> getPossibleParameterTypes() {
 				Vector<Set<Type>> result = new Vector<Set<Type>>();
 				Set<Type> typeSet = new HashSet<Type>();
 				typeSet.add(t);
@@ -57,9 +57,9 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 			}
 		};
 	}
-	
+
 	@Override
-	public Vector<Set<Type>> getPossibleParameterTypes(){
+	public Vector<Set<Type>> getPossibleParameterTypes() {
 		Vector<Set<Type>> result = new Vector<Set<Type>>();
 		result.add(new ExpressionGenerator().getAllReceiveTypes());
 		Set<Type> intType = new HashSet<Type>();
@@ -67,7 +67,7 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 		result.add(intType);
 		return result;
 	}
-	
+
 	@Override
 	public void generateWithSubExps(Expression[] subExps, Vector<Expression> result) {
 		ArrayAccess arrayAccess = new ArrayAccess(subExps[0], subExps[1]);
@@ -84,6 +84,16 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 		return result;
 	}
 
-
+	@Override
+	public void generateWithSubExps_NonTerminal(Vector<Expression> result) {
+		Vector<Set<Type>> possibleParameterTypes = this.getPossibleParameterTypes();
+		Generator[] parameterGenerators = this.getParameterGenerators();
+		int arity = this.getArity();
+		
+		for(int i = 0 ; i < arity ; i++) {
+			Set<Type> possibleParameterTypes_i = possibleParameterTypes.get(i);
+			Generator parameterGenerators_i = parameterGenerators[i];
+		}
+	}
 
 }
