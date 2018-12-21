@@ -7,6 +7,7 @@ import java.util.Vector;
 import basic.ArrayAccess;
 import basic.Expression;
 import basic.PrimitiveType;
+import basic.ScoreDef;
 import basic.Type;
 
 public class ArrayAccessGenerator extends ExpressionGenerator {
@@ -73,6 +74,15 @@ public class ArrayAccessGenerator extends ExpressionGenerator {
 		result.add(arrayAccess);
 	}
 
+	public Vector<Expression> generateExpression(int depth, String keywords) {
+		Vector<Expression> result = new Vector<Expression>();
+		new ExpressionGenerator().generateExpression(depth, keywords);
+		for (Vector<Expression> expsLEDepOfEachType : this.getExpressionsLEDepth(depth)) {
+			result.addAll(expsLEDepOfEachType);
+		}
+		ScoreDef.selectMaxBWExpressions(result, keywords);
+		return result;
+	}
 
 
 

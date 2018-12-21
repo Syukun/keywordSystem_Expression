@@ -12,7 +12,7 @@ import vector.VectorOfElements;
 
 class ExpressionGeneratorTest {
 
-	int depth = 2;
+	int depth = 1;
 	String keywords = "add line";
 
 	@Test
@@ -25,9 +25,9 @@ class ExpressionGeneratorTest {
 		exps.stream().forEach(System.out::println);
 		assertEquals(exps.size(),4);
 		// 2. StringLiteral
-		Vector<Expression> strLiterals = new StringLiteralGenerator().generateExpression(depth, keywords);
-		assertEquals(strLiterals.size(),2);
-		depth = 2;
+//		Vector<Expression> strLiterals = new StringLiteralGenerator().generateExpression(depth, keywords);
+//		assertEquals(strLiterals.size(),2);
+//		depth = 2;
 		// 3. ArrayAccess
 //		Vector<Expression> arrayAccesses = new ArrayAccessGenerator().generateExpression(depth, keywords);
 	}

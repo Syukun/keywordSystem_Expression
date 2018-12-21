@@ -20,16 +20,7 @@ public abstract class Generator {
 	public abstract Generator changeProperties(Type t);
 	public abstract Vector<Set<Type>> getPossibleParameterTypes();
 	public abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
-	
-	public Vector<Expression> generateExpression(int depth, String keywords) {
-		Vector<Expression> result = new Vector<Expression>();
-		new ExpressionGenerator().generateExpression(depth, keywords);
-		for (Vector<Expression> expsLEDepOfEachType : this.getExpressionsLEDepth(depth)) {
-			result.addAll(expsLEDepOfEachType);
-		}
-		ScoreDef.selectMaxBWExpressions(result, keywords);
-		return result;
-	}
+	public abstract Vector<Expression> generateExpression(int depth,String keywords);
 	
 	
 	public void addToTableOne(Type t, int depth, Vector<Expression> resultExps) {

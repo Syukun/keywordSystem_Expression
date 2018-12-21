@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import basic.Expression;
 import basic.PrimitiveType;
+import basic.ScoreDef;
 import basic.Type;
 import vector.VectorOfElements;
 
@@ -14,6 +15,7 @@ public class NumberLiteralGenerator extends ExpressionGenerator{
 	public Vector<Generator> getSubGenerators() {
 		return new Vector<Generator>();
 	}
+	
 	
 	public Vector<Generator> getSubGeneratorsForEachType(Type t){
 		return new Vector<Generator>();
@@ -34,5 +36,14 @@ public class NumberLiteralGenerator extends ExpressionGenerator{
 		result.addAll(VectorOfElements.numberLiterealVector);
 	}
 
+	public Vector<Expression> generateExpression(int depth, String keywords) {
+		Vector<Expression> result = new Vector<Expression>();
+		new ExpressionGenerator().generateExpression(depth, keywords);
+		for (Vector<Expression> expsLEDepOfEachType : this.getExpressionsLEDepth(depth)) {
+			result.addAll(expsLEDepOfEachType);
+		}
+		ScoreDef.selectMaxBWExpressions(result, keywords);
+		return result;
+	}
 
 }
