@@ -18,8 +18,10 @@ public abstract class Generator {
 	 * ArrayAccessGenerator()} ArrayAccessGenerator : null StringLiteralGenerator :
 	 * null
 	 */
-	public abstract Vector<Generator> getSubGenerators(int depth);
+	public abstract Vector<Generator> getSubGeneratorsByType(int depth,Type t);
 
+	public abstract Vector<Generator> getSubGenerators(int depth);
+	
 	public abstract Generator[] getParameterGenerators();
 
 	public abstract void generateWithSubExps(Expression[] subExps, Vector<Expression> result);
@@ -96,7 +98,27 @@ public abstract class Generator {
 	}
 //	≤ depth
 	public void fillTableOneInDepth(int depth, String keywords) {
-		
+		for(Type t : this.getAllReceiveTypeName()) {
+			Generator g_changed = this.changeProperties(t);
+			Vector<Generator> subGenerators = g_changed.getSubGeneratorsByType(depth,t);
+			Map<Type,Vector<Expression>> mappingForTableOne = g_changed.getMappingUnderDepth(depth);
+			if(subGenerators == null) {
+				int arity = g_changed.getParameterGenerators().length;
+				Vector<Expression> result = new Vector<Expression>();
+				if(arity == 0) {
+					generateExpressionExact(1,keywords,result);
+					mappingForTableOne.put(t, result);
+				}else if(depth == 2){
+					generateExpressionExact(2,keywords,result);
+					mappingForTableOne.put(t, result);
+				}else {
+					
+					g_changed.fillTableOneInDepth(depth-1, keywords);
+					result.addAll(this.getMappingUnderDepth(depth-1).get(t));
+					
+				}
+			}
+		}
 	}
 
 	public void generateExpressionExact(int depth, String keywords, Vector<Expression> result) {

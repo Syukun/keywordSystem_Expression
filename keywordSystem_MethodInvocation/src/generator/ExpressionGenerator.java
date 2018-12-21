@@ -8,7 +8,6 @@ import basic.Expression;
 import basic.Type;
 
 public class ExpressionGenerator extends Generator {
-
 	@Override
 	public Vector<Generator> getSubGenerators(int depth) {
 		Vector<Generator> expressionGenerator = new Vector<Generator>();
@@ -17,6 +16,18 @@ public class ExpressionGenerator extends Generator {
 			expressionGenerator.add(new NumberLiteralGenerator());
 		}else {
 			expressionGenerator.add(new ArrayAccessGenerator());
+		}
+		return expressionGenerator;
+	}
+
+	@Override
+	public Vector<Generator> getSubGeneratorsByType(int depth,Type t) {
+		Vector<Generator> expressionGenerator = new Vector<Generator>();
+		if(depth == 1) {
+			expressionGenerator.add(new StringLiteralGenerator().changeProperties(t));
+			expressionGenerator.add(new NumberLiteralGenerator().changeProperties(t));
+		}else {
+			expressionGenerator.add(new ArrayAccessGenerator().changeProperties(t));
 		}
 		return expressionGenerator;
 	}
@@ -45,8 +56,17 @@ public class ExpressionGenerator extends Generator {
 	}
 
 	public Generator changeProperties(Type t) {
-		return this;
+		return new ExpressionGenerator() {
+			@Override
+			public Set<Type> getAllReceiveTypeName() {
+				Set<Type> allReceiveTypeName = new HashSet<Type>();
+				allReceiveTypeName.add(t);
+				return allReceiveTypeName;
+			}
+			
+		};
 	}
+
 	
 	
 	
