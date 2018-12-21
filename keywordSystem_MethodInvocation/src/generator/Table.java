@@ -32,7 +32,7 @@ public class Table {
 	// if arity > 1 then it need to be add to depth 2
 	private static void initializeTable(Table table, Generator g, int depth) {
 		Map<Type, Vector<Expression>> initialElement = new HashMap<Type, Vector<Expression>>();
-		for (Type t : g.getAllReceiveTypeName()) {
+		for (Type t : g.getAllReceiveTypes()) {
 			initialElement.put(t, new Vector<Expression>());
 		}
 		for (int i = 0; i < depth; i++) {

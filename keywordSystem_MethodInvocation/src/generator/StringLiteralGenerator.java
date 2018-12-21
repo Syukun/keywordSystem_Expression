@@ -11,24 +11,27 @@ import vector.VectorOfElements;
 
 public class StringLiteralGenerator extends ExpressionGenerator {
 	
-	@Override
-	public Vector<Generator> getSubGenerators(int depth){
-//		System.out.println("Line 16 in Class StringLiteralGenerator");
-		return null;
-	}
-	@Override
-	public Generator[] getParameterGenerators() {
-		return new Generator[] {};
+	public Vector<Generator> getSubGenerators() {
+		return new Vector<Generator>();
 	}
 	
-	@Override
-	public void generateWithSubExps(Expression[] subExps,Vector<Expression> result) {
-		result.addAll(VectorOfElements.stringLiteralVector);
+	public Vector<Generator> getSubGeneratorsForEachType(Type t){
+		return new Vector<Generator>();
 	}
-	@Override
-	public Set<Type> getAllReceiveTypeName(){
+	
+	@Override	
+	public Set<Type> getAllReceiveTypes(){
 		Set<Type> allReceiveTypeName = new HashSet<Type>();
 		allReceiveTypeName.add(PrimitiveType.STRING);
 		return allReceiveTypeName;
 	}
+	
+	public Generator changeProperties(Type t) {
+		return this;
+	}
+	@Override
+	public void generateWithSubExps(Expression[] subExps,Vector<Expression> result) {
+		result.addAll(VectorOfElements.stringLiteralVector);
+	}
+
 }

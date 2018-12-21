@@ -67,8 +67,10 @@ public class ExpressionGenerator extends Generator {
 	public Vector<Generator> getSubGeneratorsForEachType(Type t){
 		Vector<Generator> subGenerators_T = new Vector<Generator>();
 		for(Generator subG : this.getSubGenerators()) {
-			subG.changeProperties(t);
-			subGenerators_T.add(subG);
+			if(subG.getAllReceiveTypes().contains(t)) {
+				subG.changeProperties(t);
+				subGenerators_T.add(subG);
+			}
 		}
 		return subGenerators_T;
 	}

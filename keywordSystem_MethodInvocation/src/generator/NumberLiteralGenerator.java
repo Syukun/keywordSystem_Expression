@@ -10,25 +10,29 @@ import basic.Type;
 import vector.VectorOfElements;
 
 public class NumberLiteralGenerator extends ExpressionGenerator{
-	@Override
-	public Vector<Generator> getSubGenerators(int depth){
-//		System.out.println("Line 16 in Class StringLiteralGenerator");
-		return null;
-	}
-	@Override
-	public Generator[] getParameterGenerators() {
-		return new Generator[] {};
+
+	public Vector<Generator> getSubGenerators() {
+		return new Vector<Generator>();
 	}
 	
-	@Override
-	public void generateWithSubExps(Expression[] subExps,Vector<Expression> result) {
-		result.addAll(VectorOfElements.numberLiterealVector);
+	public Vector<Generator> getSubGeneratorsForEachType(Type t){
+		return new Vector<Generator>();
 	}
-	@Override
-	public Set<Type> getAllReceiveTypeName(){
+	
+	@Override	
+	public Set<Type> getAllReceiveTypes(){
 		Set<Type> allReceiveTypeName = new HashSet<Type>();
 		allReceiveTypeName.add(PrimitiveType.INT);
 		return allReceiveTypeName;
 	}
+	
+	public Generator changeProperties(Type t) {
+		return this;
+	}
+	@Override
+	public void generateWithSubExps(Expression[] subExps,Vector<Expression> result) {
+		result.addAll(VectorOfElements.numberLiterealVector);
+	}
+
 
 }
